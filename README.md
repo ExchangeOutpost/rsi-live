@@ -22,6 +22,90 @@ src/
 └── exchange_outpost/           # Contains financial data structures and utility functions, you should not edit this directory
 ```
 
+## Function Manifest
+
+The `manifest.json` file is a configuration file that defines metadata and behavior for your function when deployed on ExchangeOutpost. This file is crucial for proper function registration and execution.
+
+### Manifest Structure
+
+```json
+{
+    "function_name": "Your Function Name",
+    "description": "A brief description of what your function does",
+    "financial_data_keys": ["symbol1", "symbol2"],
+    "call_arguments_schema": {
+        "type": "object",
+        "properties": {
+            "parameter_name": {
+                "type": ["number", "string"],
+                "description": "Parameter description"
+            }
+        }
+    },
+    "enforce_schemas": false
+}
+```
+
+### Manifest Fields
+
+- **`function_name`**: The display name for your function in the ExchangeOutpost interface
+- **`description`**: A clear description of what your function analyzes or computes
+- **`financial_data_keys`**: An array of strings specifying which ticker symbols your function expects to receive.
+- **`call_arguments_schema`**: A JSON schema defining the parameters your function accepts. This creates a user interface for function configuration
+- **`enforce_schemas`**: Boolean flag that determines whether the system should validate input against the defined schemas.
+
+### Example Configurations
+
+**Simple Moving Average Function:**
+```json
+{
+    "function_name": "Simple Moving Average",
+    "description": "Calculates simple moving average for specified periods",
+    "financial_data_keys": ["AAPL", "MSFT"],
+    "call_arguments_schema": {
+        "type": "object",
+        "properties": {
+            "period": {
+                "type": ["integer", "string"],
+                "description": "Number of periods for moving average calculation",
+                "minimum": 1,
+                "maximum": 200,
+                "default": 20
+            }
+        },
+        "required": ["period"]
+    },
+    "enforce_schemas": true
+}
+```
+
+**Market Analysis Function (All Data):**
+```json
+{
+    "function_name": "Market Sentiment Analyzer",
+    "description": "Analyzes overall market sentiment across all available symbols",
+    "financial_data_keys": [],
+    "call_arguments_schema": {
+        "type": "object",
+        "properties": {
+            "lookback_days": {
+                "type": ["integer", "string"],
+                "description": "Number of days to analyze",
+                "default": 30
+            },
+            "sensitivity": {
+                "type": ["number", "string"],
+                "description": "Sensitivity factor for analysis",
+                "minimum": 0.1,
+                "maximum": 2.0,
+                "default": 1.0
+            }
+        }
+    },
+    "enforce_schemas": false
+}
+```
+
 ## Core Components
 
 ### FinData
