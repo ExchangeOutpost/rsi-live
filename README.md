@@ -50,7 +50,7 @@ The `manifest.json` file is a configuration file that defines metadata and behav
 
 - **`function_name`**: The display name for your function in the ExchangeOutpost interface
 - **`description`**: A clear description of what your function analyzes or computes
-- **`financial_data_keys`**: An array of strings specifying which ticker symbols your function expects to receive.
+- **`financial_data_keys`**: An array of strings specifying what are the labels for the financial data your function requires.
 - **`call_arguments_schema`**: A JSON schema defining the parameters your function accepts. This creates a user interface for function configuration
 - **`enforce_schemas`**: Boolean flag that determines whether the system should validate input against the defined schemas.
 
@@ -61,7 +61,7 @@ The `manifest.json` file is a configuration file that defines metadata and behav
 {
     "function_name": "Simple Moving Average",
     "description": "Calculates simple moving average for specified periods",
-    "financial_data_keys": ["AAPL", "MSFT"],
+    "financial_data_keys": ["symbol_data"],
     "call_arguments_schema": {
         "type": "object",
         "properties": {
@@ -79,32 +79,6 @@ The `manifest.json` file is a configuration file that defines metadata and behav
 }
 ```
 
-**Market Analysis Function (All Data):**
-```json
-{
-    "function_name": "Market Sentiment Analyzer",
-    "description": "Analyzes overall market sentiment across all available symbols",
-    "financial_data_keys": [],
-    "call_arguments_schema": {
-        "type": "object",
-        "properties": {
-            "lookback_days": {
-                "type": ["integer", "string"],
-                "description": "Number of days to analyze",
-                "default": 30
-            },
-            "sensitivity": {
-                "type": ["number", "string"],
-                "description": "Sensitivity factor for analysis",
-                "minimum": 0.1,
-                "maximum": 2.0,
-                "default": 1.0
-            }
-        }
-    },
-    "enforce_schemas": false
-}
-```
 
 ## Core Components
 
