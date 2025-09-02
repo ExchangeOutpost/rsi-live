@@ -35,7 +35,7 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
     }
 
     return Ok(Output {
-        rsi: 0.0,
+        rsi: last,
         email_sent: false,
         period,
     });
@@ -61,9 +61,4 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
     //     )?;
     //     email_sent = true;
     // }
-
-    // Ok(Output {
-    //     rsi: last,
-    //     email_sent,
-    // })
 }
