@@ -23,6 +23,11 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
         .unwrap_or(70.0);
     let email = fin_data.get_call_argument::<String>("email")?;
 
+    return Ok(Output {
+        rsi: 0.0,
+        email_sent: false,
+    });
+
     let mut rsi =
         RelativeStrengthIndex::new(period).unwrap_or(RelativeStrengthIndex::new(14).unwrap());
     let mut last = 0.0;
