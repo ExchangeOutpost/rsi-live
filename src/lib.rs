@@ -6,7 +6,10 @@ use ta::{Next, indicators::RelativeStrengthIndex};
 
 #[derive(Serialize, ToBytes)]
 #[encoding(Json)]
-pub struct Output {}
+pub struct Output {
+    rsi: f64,
+    email_sent: bool,
+}
 
 #[plugin_fn]
 pub fn run(fin_data: FinData) -> FnResult<Output> {
@@ -20,8 +23,11 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
         .unwrap_or(70.0);
     let email = fin_data.get_call_argument::<String>("email")?;
 
-    let mut rsi = RelativeStrengthIndex::new(period).unwrap();
+    let mut rsi =
+        RelativeStrengthIndex::new(period).unwrap_or(RelativeStrengthIndex::new(14).unwrap());
     let mut last = 0.0;
+    let mut email_sent = false;
+
     for candle in ticker.candles.iter() {
         last = rsi.next(candle.close);
     }
@@ -35,6 +41,7 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
             )
             .as_str(),
         )?;
+        email_sent = true;
     } else if last > limit_high {
         schedule_email(
             &email,
@@ -44,7 +51,11 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
             )
             .as_str(),
         )?;
+        email_sent = true;
     }
 
-    Ok(Output {})
+    Ok(Output {
+        rsi: last,
+        email_sent,
+    })
 }
