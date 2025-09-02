@@ -14,49 +14,49 @@ pub struct Output {
 
 #[plugin_fn]
 pub fn run(fin_data: FinData) -> FnResult<Output> {
-    let ticker = fin_data.get_ticker("symbol_data")?;
-    let period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
-    let limit_low = fin_data
+    let _ticker = fin_data.get_ticker("symbol_data")?;
+    let _period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
+    let _limit_low = fin_data
         .get_call_argument::<f64>("limit_low")
         .unwrap_or(30.0);
-    let limit_high = fin_data
+    let _limit_high = fin_data
         .get_call_argument::<f64>("limit_high")
         .unwrap_or(70.0);
-    let email = fin_data.get_call_argument::<String>("email")?;
+    let _email = fin_data.get_call_argument::<String>("email")?;
 
-    let mut rsi =
-        RelativeStrengthIndex::new(period).unwrap_or(RelativeStrengthIndex::new(14).unwrap());
-    let mut last = 0.0;
-    let mut email_sent = false;
+    // let mut rsi =
+    //     RelativeStrengthIndex::new(period).unwrap_or(RelativeStrengthIndex::new(14).unwrap());
+    // let mut last = 0.0;
+    // let mut email_sent = false;
 
-    for candle in ticker.candles.iter() {
-        last = rsi.next(candle.close);
-    }
+    // for candle in ticker.candles.iter() {
+    //     last = rsi.next(candle.close);
+    // }
 
-    if last < limit_low {
-        schedule_email(
-            &email,
-            format!(
-                "RSI is below {}: {} for symbol {}",
-                limit_low, last, ticker.symbol
-            )
-            .as_str(),
-        )?;
-        email_sent = true;
-    } else if last > limit_high {
-        schedule_email(
-            &email,
-            format!(
-                "RSI is above {}: {} for symbol {}",
-                limit_high, last, ticker.symbol
-            )
-            .as_str(),
-        )?;
-        email_sent = true;
-    }
+    // if last < limit_low {
+    //     schedule_email(
+    //         &email,
+    //         format!(
+    //             "RSI is below {}: {} for symbol {}",
+    //             limit_low, last, ticker.symbol
+    //         )
+    //         .as_str(),
+    //     )?;
+    //     email_sent = true;
+    // } else if last > limit_high {
+    //     schedule_email(
+    //         &email,
+    //         format!(
+    //             "RSI is above {}: {} for symbol {}",
+    //             limit_high, last, ticker.symbol
+    //         )
+    //         .as_str(),
+    //     )?;
+    //     email_sent = true;
+    // }
 
     return Ok(Output {
-        rsi: last,
-        email_sent: email_sent,
+        rsi: 0.0,
+        email_sent: false,
     });
 }
