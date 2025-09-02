@@ -35,24 +35,24 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
     }
 
     if last < limit_low {
-        schedule_email(
-            &email,
-            format!(
-                "RSI is below {}: {} for symbol {}",
-                limit_low, last, ticker.symbol
-            )
-            .as_str(),
-        )?;
+        // schedule_email(
+        //     &email,
+        //     format!(
+        //         "RSI is below {}: {} for symbol {}",
+        //         limit_low, last, ticker.symbol
+        //     )
+        //     .as_str(),
+        // )?;
         email_sent = true;
     } else if last > limit_high {
-        schedule_email(
-            &email,
-            format!(
-                "RSI is above {}: {} for symbol {}",
-                limit_high, last, ticker.symbol
-            )
-            .as_str(),
-        )?;
+        // schedule_email(
+        //     &email,
+        //     format!(
+        //         "RSI is above {}: {} for symbol {}",
+        //         limit_high, last, ticker.symbol
+        //     )
+        //     .as_str(),
+        // )?;
         email_sent = true;
     }
 
