@@ -15,7 +15,7 @@ pub struct Output {
 #[plugin_fn]
 pub fn run(fin_data: FinData) -> FnResult<Output> {
     let ticker = fin_data.get_ticker("symbol_data")?;
-    let period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
+    //let period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
     return Ok(Output {
         rsi: 0.0,
         email_sent: false,
