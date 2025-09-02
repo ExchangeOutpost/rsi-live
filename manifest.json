@@ -6,20 +6,20 @@
         "type": "object",
         "properties": {
             "period": {
-                "type": "integer",
+                "type": ["integer", "string"],
                 "description": "RSI calculation period",
                 "default": 14,
                 "minimum": 1
             },
             "limit_low": {
-                "type": "number",
+                "type": ["number", "string"],
                 "description": "Lower RSI threshold for oversold alerts",
                 "default": 30.0,
                 "minimum": 0,
                 "maximum": 100
             },
             "limit_high": {
-                "type": "number",
+                "type": ["number", "string"],
                 "description": "Upper RSI threshold for overbought alerts",
                 "default": 70.0,
                 "minimum": 0,
