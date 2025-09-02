@@ -2,6 +2,7 @@ mod exchange_outpost;
 use crate::exchange_outpost::{FinData, schedule_email};
 use extism_pdk::{FnResult, Json, ToBytes, encoding, plugin_fn};
 use serde::Serialize;
+use std::collections::HashMap;
 use ta::{Next, indicators::RelativeStrengthIndex};
 
 #[derive(Serialize, ToBytes)]
@@ -9,10 +10,16 @@ use ta::{Next, indicators::RelativeStrengthIndex};
 pub struct Output {
     rsi: f64,
     email_sent: bool,
+    call_args: HashMap<String, String>,
 }
 
 #[plugin_fn]
 pub fn run(fin_data: FinData) -> FnResult<Output> {
+    return Ok(Output {
+        rsi: 0.0,
+        email_sent: false,
+        call_args: fin_data.call_arguments.clone(),
+    });
     let ticker = fin_data.get_ticker("symbol_data")?;
     let period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
     let limit_low = fin_data
@@ -22,11 +29,6 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
         .get_call_argument::<f64>("limit_high")
         .unwrap_or(70.0);
     let email = fin_data.get_call_argument::<String>("email")?;
-
-    return Ok(Output {
-        rsi: 0.0,
-        email_sent: false,
-    });
 
     let mut rsi =
         RelativeStrengthIndex::new(period).unwrap_or(RelativeStrengthIndex::new(14).unwrap());

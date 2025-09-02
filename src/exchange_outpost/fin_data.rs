@@ -38,7 +38,7 @@ impl TickersData {
 pub struct FinData {
     tickers_data: HashMap<String, TickersData>,
     piped_data: HashMap<String, String>,
-    call_arguments: HashMap<String, String>,
+    pub call_arguments: HashMap<String, String>,
 }
 
 impl FromBytesOwned for FinData {
