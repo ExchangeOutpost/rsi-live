@@ -10,18 +10,16 @@ use ta::{Next, indicators::RelativeStrengthIndex};
 pub struct Output {
     rsi: f64,
     email_sent: bool,
-    call_args: HashMap<String, String>,
 }
 
 #[plugin_fn]
 pub fn run(fin_data: FinData) -> FnResult<Output> {
+    let ticker = fin_data.get_ticker("symbol_data")?;
+    let period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
     return Ok(Output {
         rsi: 0.0,
         email_sent: false,
-        call_args: fin_data.call_arguments.clone(),
     });
-    // let ticker = fin_data.get_ticker("symbol_data")?;
-    // let period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
     // let limit_low = fin_data
     //     .get_call_argument::<f64>("limit_low")
     //     .unwrap_or(30.0);
