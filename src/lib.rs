@@ -10,7 +10,6 @@ use ta::{Next, indicators::RelativeStrengthIndex};
 pub struct Output {
     rsi: f64,
     email_sent: bool,
-    period: usize,
 }
 
 #[plugin_fn]
@@ -35,30 +34,29 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
     }
 
     if last < limit_low {
-        // schedule_email(
-        //     &email,
-        //     format!(
-        //         "RSI is below {}: {} for symbol {}",
-        //         limit_low, last, ticker.symbol
-        //     )
-        //     .as_str(),
-        // )?;
+        schedule_email(
+            &email,
+            format!(
+                "RSI is below {}: {} for symbol {}",
+                limit_low, last, ticker.symbol
+            )
+            .as_str(),
+        )?;
         email_sent = true;
     } else if last > limit_high {
-        // schedule_email(
-        //     &email,
-        //     format!(
-        //         "RSI is above {}: {} for symbol {}",
-        //         limit_high, last, ticker.symbol
-        //     )
-        //     .as_str(),
-        // )?;
+        schedule_email(
+            &email,
+            format!(
+                "RSI is above {}: {} for symbol {}",
+                limit_high, last, ticker.symbol
+            )
+            .as_str(),
+        )?;
         email_sent = true;
     }
 
     return Ok(Output {
         rsi: last,
         email_sent: email_sent,
-        period,
     });
 }
