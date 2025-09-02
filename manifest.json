@@ -1,7 +1,38 @@
 {
-    "function_name": "Rust Function Template",
-    "description": "A template for creating Rust functions",
-    "financial_data_keys": [],
-    "call_arguments_schema": {},
-    "enforce_schemas": false
+    "function_name": "RSI Live Monitor",
+    "description": "Real-time RSI (Relative Strength Index) monitoring with email notifications when RSI crosses configured thresholds",
+    "financial_data_keys": ["symbol_data"],
+    "call_arguments_schema": {
+        "type": "object",
+        "properties": {
+            "period": {
+                "type": "integer",
+                "description": "RSI calculation period",
+                "default": 14,
+                "minimum": 1
+            },
+            "limit_low": {
+                "type": "number",
+                "description": "Lower RSI threshold for oversold alerts",
+                "default": 30.0,
+                "minimum": 0,
+                "maximum": 100
+            },
+            "limit_high": {
+                "type": "number",
+                "description": "Upper RSI threshold for overbought alerts",
+                "default": 70.0,
+                "minimum": 0,
+                "maximum": 100
+            },
+            "email": {
+                "type": "string",
+                "description": "Email address to send notifications to",
+                "format": "email"
+            }
+        },
+        "required": ["email"],
+        "additionalProperties": false
+    },
+    "enforce_schemas": true
 }
