@@ -15,20 +15,20 @@ pub struct Output {
 
 #[plugin_fn]
 pub fn run(fin_data: FinData) -> FnResult<Output> {
-    let ticker = fin_data.get_ticker("symbol_data")?;
+    let _ticker = fin_data.get_ticker("symbol_data")?;
     let period = fin_data.get_call_argument::<usize>("period").unwrap_or(14);
+    let _limit_low = fin_data
+        .get_call_argument::<f64>("limit_low")
+        .unwrap_or(30.0);
+    let _limit_high = fin_data
+        .get_call_argument::<f64>("limit_high")
+        .unwrap_or(70.0);
+    let _email = fin_data.get_call_argument::<String>("email")?;
     return Ok(Output {
         rsi: 0.0,
         email_sent: false,
         period,
     });
-    // let limit_low = fin_data
-    //     .get_call_argument::<f64>("limit_low")
-    //     .unwrap_or(30.0);
-    // let limit_high = fin_data
-    //     .get_call_argument::<f64>("limit_high")
-    //     .unwrap_or(70.0);
-    // let email = fin_data.get_call_argument::<String>("email")?;
 
     // let mut rsi =
     //     RelativeStrengthIndex::new(period).unwrap_or(RelativeStrengthIndex::new(14).unwrap());
