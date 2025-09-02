@@ -23,7 +23,7 @@ pub fn run(fin_data: FinData) -> FnResult<Output> {
     let _limit_high = fin_data
         .get_call_argument::<f64>("limit_high")
         .unwrap_or(70.0);
-    // let _email = fin_data.get_call_argument::<String>("email")?;
+    let _email = fin_data.get_call_argument::<String>("email")?;
 
     let mut rsi =
         RelativeStrengthIndex::new(period).unwrap_or(RelativeStrengthIndex::new(14).unwrap());
